@@ -1,0 +1,10 @@
+<!--The index page-->
+#extend("base"):
+    #export("content"):
+        <img src="/images/logo.png" class="mx-auto d-block" alt="TIL Logo" />
+        <h1>Terminologies</h1>
+
+        #extend("terminologiesTable")
+
+    #endexport
+#endextend

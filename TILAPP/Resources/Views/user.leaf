@@ -1,0 +1,23 @@
+<!--User detail page-->
+#extend("base"):
+    #export("content"):
+        <br />
+        <div class="container-sm text-center" style="width: 300px;">
+            #if(user.profileImage):
+                <img class="img-thumbnail" src="/users/#(user.id)/profileImage" alt="#(user.name)">
+            #endif
+            <h1>#(user.name)</h1>
+            <h2>#(user.username) #if(user.faceBookURL): - #(user.faceBookURL) #endif</h2>
+            #if(authenticatedUser):
+                <a href="/users/#(user.id)/addProfileImage">
+                    #if(user.profileImage):
+                        Update
+                    #else:
+                        Add Profile Picture
+                    #endif
+                </a>
+            #endif
+        </div><br/ >
+        #extend("terminologiesTable")
+    #endexport
+#endextend
