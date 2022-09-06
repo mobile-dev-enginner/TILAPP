@@ -1,9 +1,0 @@
-<!--Category detail page-->
-#extend("base"):
-    #export("content"):
-        <h1>#(category.name)</h1>
-
-        #extend("terminologiesTable")
-
-    #endexport
-#endextend
