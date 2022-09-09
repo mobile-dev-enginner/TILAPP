@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "TILServer",
     platforms: [
-        .macOS(.v10_15)
+       .macOS(.v11)
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
@@ -13,7 +13,8 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.0.0"),
         .package(url: "https://github.com/vapor/leaf.git", from: "4.0.0"),
         .package(url: "https://github.com/vapor-community/Imperial.git", from: "1.0.0"),
-        .package(url: "https://github.com/vapor-community/sendgrid.git", from: "4.0.0")
+        .package(url: "https://github.com/vapor-community/sendgrid.git", from: "4.0.0"),
+        .package(url: "https://github.com/vapor/redis", from: "4.2.0")
     ],
     targets: [
         .target(
@@ -24,7 +25,8 @@ let package = Package(
                 .product(name: "Leaf", package: "leaf"),
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "ImperialGoogle", package: "Imperial"),
-                .product(name: "SendGrid", package: "sendgrid")
+                .product(name: "SendGrid", package: "sendgrid"),
+                .product(name: "Redis", package: "redis")
 
             ],
             swiftSettings: [
