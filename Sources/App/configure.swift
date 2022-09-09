@@ -3,7 +3,7 @@ import FluentPostgresDriver
 import Leaf
 import Vapor
 import SendGrid
-//import FluentSQLiteDriver
+import Redis
 
 /// Configures your remote application's database
 func configureDatabase(with url: URL, for app: Application) {
@@ -54,7 +54,6 @@ func configureLocalDatabase(for app: Application) {
 public func configure(_ app: Application) throws {
     // uncomment to serve files from /Public folder
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
-    app.middleware.use(app.sessions.middleware)
 
     if let dbURLString = Environment.get("DATABASE_URL"),
        let url = URL(string: dbURLString) {
@@ -62,9 +61,10 @@ public func configure(_ app: Application) throws {
     } else {
         configureLocalDatabase(for: app)
     }
-
-
-//    app.databases.use(.sqlite(.memory), as: .sqlite)
+    
+    let redisHostname = Environment.get("REDIS_HOSTNAME") ?? "localhost"
+    let redisConfig = try RedisConfiguration(hostname: redisHostname)
+    app.redis.configuration = redisConfig
 
     // The migration list in the correct order
     app.migrations.add(CreateUser())
@@ -101,6 +101,10 @@ public func configure(_ app: Application) throws {
     try app.autoMigrate().wait()
 
     app.views.use(.leaf)
+    
+    app.sessions.use(.redis)
+
+    app.middleware.use(app.sessions.middleware)
 
     // register routes
     try routes(app)
